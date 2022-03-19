@@ -1,62 +1,57 @@
-const url =
-	'https://course-api.com/javascript-store-single-product?id=rec43w3ipXvP28vog';
+const url = 'https://course-api.com/javascript-store-single-product';
 
 const productDOM = document.querySelector('.product');
 
-const fetchProducts = async () => {
-	productDOM.innerHTML = `<div class="loading"></div>`;
+const fetchProduct = async () => {
 	try {
-		const response = await fetch(url);
-		const data = await response.json();
+		productDOM.innerHTML = `<h4 class="product-loading">Loading....</h4>`;
 
-		// TODO if (!response.ok) {
-		//TODO 	throw new Error('there was an error fetching products');
-		// TODO}
-		// console.log(data);
+		const params = new URLSearchParams(window.location.search);
+		const id = params.get('id');
+
+		const response = await fetch(`${url}?id=${id}`);
+		const data = await response.json();
 		return data;
 	} catch (error) {
 		productDOM.innerHTML = `<p class="error">there was an error</p>`;
 	}
 };
 
-const displayProducts = (list) => {
-	console.log(list);
-	const productList = list.map((product) => {
-		console.log(list);
-		// id, name, price, img;
-		// const { id } = product;
-		// const { name: title, price } = product.fields;
-		// const { url: img } = product.fields.image[0];
-		// const formatPrice = price / 100;
-		// const { company } = product.fields.company;
-		// console.log(company);
-		// return `<div class="product-wrapper">
-		// 	<img src="${img}" alt="${title}" class="img" />
-		// 	<div class="product-info">
-		// 		<h3>${title}</h3>
-		// 		<h5>company</h5>
-		// 		<span>price</span>
-		// 		<div class="colors">
-		// 			<span class="product-color"></span>
-		// 			<span class="product-color" style="background: red"></span>
-		// 		</div>
-		// 		<p>
-		// 			Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni totam
-		// 			fuga dolorum natus rem nihil nulla impedit, molestias nam illo
-		// 			tempora illum. Rerum laborum, nulla nesciunt corporis ea cum
-		// 			doloribus!
-		// 		</p>`;
-	});
-	// 		.join('');
-	// 	productDOM.innerHTML = `<div class="products-container">${productList}</div>
-	// `;
+const displayProduct = (product) => {
+	// company, colors, description, name:title, price, image;
+	const {
+		company,
+		colors,
+		description,
+		name: title,
+		price,
+		image,
+	} = product.fields;
+	const { url: img } = image[0];
+
+	document.title = title.toUpperCase();
+	// colors
+	const colorList = colors
+		.map((color) => {
+			return `<span class="product-color" style="background: ${color}"></span>`;
+		})
+		.join('');
+
+	productDOM.innerHTML = `<div class="product-wrapper">
+		<img src="${img}" alt="${title}" class="img" />
+		<div class="product-info">
+			<h3>${title}</h3>
+			<h5>${company}</h5>
+			<span>${price / 100}</span>
+			<div class="colors">
+			${colorList}
+			</div>
+			<p>${description}</p>`;
 };
 
 const start = async () => {
-	const data = await fetchProducts();
-	displayProducts(data);
+	const data = await fetchProduct();
+	displayProduct(data);
 };
 
-// displayProducts();
-// fetchProducts();
 start();
