@@ -11,14 +11,14 @@ const displayDrinks = ({ drinks }) => {
 	} else {
 		const newDrinks = drinks
 			.map((drink) => {
-				// const id = drink.idDrink;
+
 				const {
 					strDrink: name,
 					strDrinkThumb: image,
 					idDrink: id,
 					strCategory: category,
 				} = drink;
-				// console.log(id);
+		
 
 				return `<a href="drink.html">
 					<article class="cocktail" data-id="${id}">
