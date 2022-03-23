@@ -1,7 +1,7 @@
 import get from './getElement.js';
 import { hideLoading } from './toggleLoading.js';
 
-const displayDrinks = ({ drinks }) => {
+const displayDrinks = ({ drinks }) => {		console.log(drinks);
 	const section = get('.section-center');
 	const title = get('.title');
 	if (!drinks) {
@@ -11,6 +11,7 @@ const displayDrinks = ({ drinks }) => {
 		section.innerHTML = null;
 		return;
 	} else {
+
 		const newDrinks = drinks
 			.map((drink) => {
 				const {
