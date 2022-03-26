@@ -38,3 +38,12 @@ sidebar.innerHTML = sublinks
   </article>`;
 	})
 	.join('');
+
+linkBtns.forEach((btn) => {
+	btn.addEventListener('mouseover', function (e) {
+		const text = e.currentTarget.textContent;
+		const tempBtn = e.currentTarget.getBoundingClientRect();
+  console.log(tempBtn);
+		submenu.classList.add('show');
+	});
+});
